@@ -15,6 +15,10 @@ var _ = { };
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
+  _.identity = function(item){
+    return item;
+  }
+
   _.first = function(array, n) {
     if (typeof n === "number"){
       return array.splice(0,n);
@@ -153,6 +157,11 @@ var _ = { };
 
 
   _.reduce = function(collection, iterator, initialValue) {
+    if (!initialValue){initialValue = 0;};
+    _.each(collection, function(val){
+      initialValue = iterator(initialValue, val);
+    });
+    return initialValue;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -170,12 +179,21 @@ var _ = { };
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    iterator || (iterator = _.identity);
+    return _.reduce(collection, function(isTrue, item){
+      return (isTrue && iterator(item)) ? true : false ;
+    }, true);
     // TIP: Try re-using reduce() here.
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    iterator || (iterator = _.identity);
+    return (_.reduce(collection, function(isTrue, item){
+      return (isTrue) ? true : (iterator(item)) ;
+    }, false)==true);
+
     // TIP: There's a very clever way to re-use every() here.
   };
 
