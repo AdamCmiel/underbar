@@ -84,6 +84,14 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var passes = [];
+    _.each(array, function(val){
+      //if(passes.indexOf(val) === -1){
+      if(_.indexOf(passes, val) === -1){
+        passes.push(val);
+      }
+    });
+    return passes;
   };
 
 
