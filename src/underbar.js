@@ -112,6 +112,10 @@ var _ = { };
   //     return total + number;
   //   }, 0); // should be 6
   //
+
+  // End Phase 1
+
+
   _.reduce = function(collection, iterator, initialValue) {
   };
 
