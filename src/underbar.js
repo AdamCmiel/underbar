@@ -219,7 +219,7 @@ var _ = { };
   _.extend = function(obj) {
     var out = {};
     _.each(arguments, function(arg){
-      _.each(arg, function(val, key, arg){
+      _.each(arg, function(val, key){
         obj[key]=val;
       });
     });
@@ -229,6 +229,13 @@ var _ = { };
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var additional_args = [].slice.call(arguments).slice(1);
+    var out = {};
+    _.each(additional_args, function(arg){
+      _.each(arg, function(val, key){
+        if (obj[key]==undefined) obj[key] = val;
+      });
+    });
   };
 
 
