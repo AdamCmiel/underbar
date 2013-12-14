@@ -129,6 +129,7 @@ var _ = { };
   };
 
   // Calls the method named by methodName on each value in the list.
+  //refactor with _.map
   _.invoke = function(list, methodName, args) {
     var result = [];
     _.each(list, function(val){
@@ -285,7 +286,7 @@ var _ = { };
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    setTimeout(func.apply(this, [].slice.apply(arguments).slice(2)), wait);
+    setTimeout(func.apply(this, [].slice.apply(this, arguments).slice(2)), wait);
   };
 
 
