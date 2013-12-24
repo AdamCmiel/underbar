@@ -306,6 +306,14 @@ var _ = { };
 
   // Shuffle an array.
   _.shuffle = function(array) {
+    var a = _.map(array, _.identity);
+    _.each(a, function(val, index){
+      var jndex = Math.floor(Math.random()*(a.length)+1);
+      var memo = a[jndex];
+      a[jndex] = a[index];
+      a[index] = memo;
+    });
+    return a;
   };
 
 
