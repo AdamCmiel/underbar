@@ -273,9 +273,14 @@ var _ = { };
   // Memoize should return a function that when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
+  _.memoize = function(func, hasher) {
+    var results = {};
+    hasher || (hasher = _.identity);
+    return function(){
+      var key = hasher.apply(this, arguments);
+      return (_.has(results, key)) ? results[key] : (results[key] = func.apply(this, arguments));
+    }
   };
-
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
