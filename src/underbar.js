@@ -281,6 +281,10 @@ var _ = { };
       return (_.has(results, key)) ? results[key] : (results[key] = func.apply(this, arguments));
     }
   };
+
+  _.has = function(obj, key) {
+    return hasOwnProperty.call(obj, key);
+  };
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
