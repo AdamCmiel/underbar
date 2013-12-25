@@ -328,16 +328,17 @@ var _ = { };
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-    var list = _.map(collection, _.identity);
-    var sublist = _.pluck(collection, iterator);
-    return _.map(sublist, function(value){
-      _.each(list, function(item, index){
-        if (item[iterator]===value){
-          list.slice(index, 1);
-          return item;
-        };
-      });
+    //map the collection by the iterator, and sort the result
+    if (typeof iterator === "string" && iterator === "length"){
+      return _.sortBy(collection, function(item){return item.length});
+    };
+    var mappedValues = _.map(collection, function(i){
+      return [iterator(i), i];
     });
+
+
+
+    return _.map(sortedValues, function(i){return i[1];});
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -346,6 +347,16 @@ var _ = { };
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var depth = Math.max.apply(this, _.map(arguments, function(arg){return arg.length}));
+    var width = arguments.length;
+    var out = _.map(Array(depth), function(){return Array(arguments.length)});
+
+    for (var i=0; i<depth; i++){
+      for (var j = 0; j<width; j++){
+        out[i][j] = arguments[j][i];
+      }
+    }
+    return out;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
