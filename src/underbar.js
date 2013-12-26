@@ -329,16 +329,29 @@ var _ = { };
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
     //map the collection by the iterator, and sort the result
-    if (typeof iterator === "string" && iterator === "length"){
-      return _.sortBy(collection, function(item){return item.length});
+    if (typeof iterator === "string"){
+      return _.sortBy(collection, function(item){return item[iterator]})
     };
     var mappedValues = _.map(collection, function(i){
       return [iterator(i), i];
     });
 
+    var memo;
 
+    //if a[k-1] is undefined and a[k] is defined, swap a[k-1] and a[k]
+    //if both are undefined, don't swap
 
-    return _.map(sortedValues, function(i){return i[1];});
+    for (var i = 1; i<mappedValues.length; i++){
+      for (var k = i; k>0; k--){
+        if ((mappedValues[k-1]===undefined && mappedValues[k]!==undefined) || mappedValues[k-1] > mappedValues[k]) {
+          memo = mappedValues[k];
+          mappedValues[k] = mappedValues[k-1];
+          mappedValues[k-1] = memo;
+        };
+      };
+    };
+
+    return _.map(mappedValues, function(item){return item[1]});
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -364,6 +377,9 @@ var _ = { };
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    return _.map(nestedArray, function(element){
+      return (Array.isArray(element)) ? _.flatten(element) : element;
+    });
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
