@@ -334,22 +334,17 @@ var _ = { };
     };
     var mappedValues = _.map(collection, function(i){
       return [iterator(i), i];
+    }).sort(function(a,b){
+      if (a[0]===undefined){
+        if (b[0]===undefined){
+          return 0;
+        } else {
+          return -1;
+        }
+      } else {
+        return a[0]-b[0];
+      }
     });
-
-    var memo;
-
-    //if a[k-1] is undefined and a[k] is defined, swap a[k-1] and a[k]
-    //if both are undefined, don't swap
-
-    for (var i = 1; i<mappedValues.length; i++){
-      for (var k = i; k>0; k--){
-        if ((mappedValues[k-1]===undefined && mappedValues[k]!==undefined) || mappedValues[k-1] > mappedValues[k]) {
-          memo = mappedValues[k];
-          mappedValues[k] = mappedValues[k-1];
-          mappedValues[k-1] = memo;
-        };
-      };
-    };
 
     return _.map(mappedValues, function(item){return item[1]});
   };
