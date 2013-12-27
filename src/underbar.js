@@ -335,8 +335,8 @@ var _ = { };
     var mappedValues = _.map(collection, function(i){
       return [iterator(i), i];
     }).sort(function(a,b){
-      if (a[0]===undefined){
-        if (b[0]===undefined){
+      if (a[0]==undefined){
+        if (b[0]==undefined){
           return 0;
         } else {
           return -1;
@@ -372,9 +372,7 @@ var _ = { };
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
-    return _.map(nestedArray, function(element){
-      return (Array.isArray(element)) ? _.flatten(element) : element;
-    });
+    
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
