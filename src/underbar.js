@@ -15,6 +15,10 @@ var _ = { };
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
+  var slice = function(){
+    return Array.prototype.slice.call(arguments[0], arguments[1]);
+  }
+
   _.identity = function(item){
     return item;
   }
@@ -227,7 +231,7 @@ var _ = { };
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    var additional_args = [].slice.call(arguments).slice(1);
+    var additional_args = slice(arguments, 1);
     var out = {};
     _.each(additional_args, function(arg){
       _.each(arg, function(val, key){
@@ -292,7 +296,7 @@ var _ = { };
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var args = Array.prototype.slice.call(arguments, 2);    
+    var args = slice(arguments, 2);    
     return setTimeout(function(){
       return func.apply(null, args)
     }, wait);
@@ -390,7 +394,7 @@ var _ = { };
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-    var args = Array.prototype.slice.call(arguments);
+    var args = slice(arguments);
     var out = [];
 
     _.each(args, function (arg){
@@ -409,7 +413,7 @@ var _ = { };
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = slice(arguments);
     var out = [];
 
     _.each(args[0], function(item){
