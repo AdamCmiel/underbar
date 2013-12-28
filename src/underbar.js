@@ -393,9 +393,9 @@ var _ = { };
     var args = Array.prototype.slice.call(arguments);
     var out = [];
 
-    _.each(args, function(arg){
-      _.each(arg, function(item){
-        if (_.every(args, function(argument){
+    _.each(args, function (arg){
+      _.each(arg, function (item){
+        if (_.every(args, function (argument){
           return _.contains(argument, item);
         }) && !_.contains(out, item)){
           out.push(item);
@@ -409,6 +409,18 @@ var _ = { };
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var args = Array.prototype.slice.call(arguments);
+    var out = [];
+
+    _.each(args[0], function(item){
+      if (!_.some(args.slice(1), function (argument){
+        return _.contains(argument, item);
+      })){
+        out.push(item);
+      }
+    });
+
+    return out;
   };
 
 
