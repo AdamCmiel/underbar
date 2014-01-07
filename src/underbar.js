@@ -337,17 +337,10 @@ var _ = { };
       return _.sortBy(collection, function(item){return item[iterator]})
     };
     var mappedValues = _.map(collection, function(i){
+      if (i === undefined) return [Infinity, i]
       return [iterator(i), i];
     }).sort(function(a,b){
-      if (a[0]==undefined){
-        if (b[0]==undefined){
-          return 0;
-        } else {
-          return -1;
-        }
-      } else {
         return a[0]-b[0];
-      }
     });
 
     return _.map(mappedValues, function(item){return item[1]});
