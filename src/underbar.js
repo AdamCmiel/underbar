@@ -430,23 +430,32 @@ var _ = { };
   // during a given window of time.
   //
   // See the Underbar readme for details.
-  _.throttle = function(func, wait) {
-    var called = false;
-    return function throttled() {
-      if (!called){
-        called = true;
-        return func.call(this, arguments);
-        /*_.delay(function(){
-          called = false;
-        }, wait);
-        */
-      } else {
-        setTimeout(function(){
-          called = false;
-          func.call(this, arguments);
-        }, wait);
+  _.throttle = function (f, wait) {
+    var nCalls = 0
+    var queue = []
+    var result;
+    function onFinishedDelay() {
+      nCalls = 0
+      if (queue.length > 0) {
+        var args = queue[0]
+        queue = []
+        nCalls = 1
+        setTimeout(onFinishedDelay, wait)
+        result = f.call(this, args)
       }
-    };
+    }
+    return function () {
+      if (nCalls == 0) {
+        nCalls = 1
+        setTimeout(onFinishedDelay, wait)
+        result = f.call(this, arguments)
+      } else {
+        if (queue.length == 0) {
+          queue.push(arguments)
+        }
+      }
+      return result
+    }
   };
 
 }).call(this);
