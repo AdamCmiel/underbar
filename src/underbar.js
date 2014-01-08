@@ -17,6 +17,7 @@ var _ = { };
   // return just the first element.
   var slice = function(){
     return Array.prototype.slice.call(arguments[0], arguments[1]);
+                                      //thing.slice()  //thing.slice(number)
   }
 
   _.identity = function(item){
